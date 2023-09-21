@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 interface TableProps {
-  data: { [key: string]: any }[] | undefined;
+  data: { [key: string]: any }[] | null | undefined;
   isLoading: boolean;
 }
 export const Table = ({ data, isLoading }: TableProps) => {
