@@ -5,12 +5,19 @@ import { OrFilters } from "../or-filters";
 import { useState } from "react";
 import { createArrayOfLength } from "../../utils";
 import React from "react";
-interface FiltersProps extends ApiData {}
+interface FiltersProps extends ApiData {
+  keys?: string[];
+}
 
-export const Filters = ({ data }: FiltersProps) => {
+export const Filters = ({ data, keys }: FiltersProps) => {
   const [numberOfFilters, setNumberOfFilters] = useState(0);
   const renderArray = createArrayOfLength(numberOfFilters);
+
   const addFilter = () => {
+    // https://github.com/chakra-ui/chakra-ui/issues/7269
+    if (!keys?.length) {
+      return;
+    }
     setNumberOfFilters(prevState => prevState + 1);
   };
 
@@ -29,7 +36,11 @@ export const Filters = ({ data }: FiltersProps) => {
                   AND
                 </Text>
               )}
-              <OrFilters deleteParentFilter={deleteFilter} index={index} />
+              <OrFilters
+                keys={keys}
+                deleteParentFilter={deleteFilter}
+                index={index}
+              />
             </React.Fragment>
           ))}
       </Flex>

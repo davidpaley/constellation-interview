@@ -5,22 +5,24 @@ interface SingleFilterProps {
   addFilter: () => void;
   deleteFilter: (index: number) => void;
   index: number;
+  keys?: string[];
 }
 
 export const SingleFilter = ({
   addFilter,
   deleteFilter,
   index,
+  keys,
 }: SingleFilterProps) => {
   return (
     <>
-      <Select placeholder="Field selection">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
+      <Select disabled={!keys?.length} placeholder="Field selection">
+        {keys?.map(key => (
+          <option value={key}>{key}</option>
+        ))}
       </Select>
 
-      <Select placeholder="Operator">
+      <Select disabled={!keys?.length} placeholder="Operator">
         <option value="equals">Equals</option>
         <option value="greaterThan">Greater than</option>
         <option value="lessThan">Less than</option>
@@ -30,15 +32,17 @@ export const SingleFilter = ({
         <option value="regex">Regex</option>
       </Select>
 
-      <Input placeholder="value" />
+      <Input disabled={!keys?.length} placeholder="value" />
 
       <IconButton
+        disabled={!keys?.length}
         color="blue"
         aria-label="Search database"
         onClick={addFilter}
         icon={<AddIcon />}
       />
       <IconButton
+        disabled={!keys?.length}
         color="#ff8585"
         aria-label="Search database"
         icon={<DeleteIcon />}

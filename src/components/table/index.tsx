@@ -14,8 +14,9 @@ import { ApiData } from "../../models";
 
 interface TableProps extends ApiData {
   isLoading: boolean;
+  keys: string[];
 }
-export const Table = ({ data, isLoading }: TableProps) => {
+export const Table = ({ data, isLoading, keys }: TableProps) => {
   if (isLoading) {
     return (
       <Stack mx={5} mt={20} mb={20}>
@@ -29,7 +30,6 @@ export const Table = ({ data, isLoading }: TableProps) => {
     );
   }
   if (!data?.length) return null;
-  const arrayOfKeys = Object.keys(data[0]);
   return (
     <TableContainer
       mx={10}
@@ -40,17 +40,14 @@ export const Table = ({ data, isLoading }: TableProps) => {
       overflowY="auto"
     >
       <ChakraTable variant="simple">
-        <TableCaption>Nasa Data</TableCaption>
         <Thead>
-          <Tr>
-            {data?.length && arrayOfKeys.map(key => <Th key={key}>{key}</Th>)}
-          </Tr>
+          <Tr>{data?.length && keys.map(key => <Th key={key}>{key}</Th>)}</Tr>
         </Thead>
         <Tbody>
           {data?.length &&
             data.map((objectItem, index) => (
               <Tr key={objectItem.id || index}>
-                {arrayOfKeys.map((key, index) => {
+                {keys.map((key, index) => {
                   return (
                     <Td key={index}>
                       {typeof objectItem[key] === "object"

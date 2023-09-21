@@ -7,11 +7,13 @@ import { createArrayOfLength } from "../../utils";
 interface OrFiltersProps {
   deleteParentFilter: (currentIndex: number) => void;
   index: number;
+  keys?: string[];
 }
 
 export const OrFilters = ({
   deleteParentFilter,
   index: currentIndex,
+  keys,
 }: OrFiltersProps) => {
   const [isMobileViewOpen] = useMediaQuery(CUSTOM_MEDIA_QUERIES.MOBILE);
   const [numberOfFilters, setNumberOfFilters] = useState(1);
@@ -55,6 +57,7 @@ export const OrFilters = ({
                 index={index}
                 addFilter={addFilter}
                 deleteFilter={deleteFilter}
+                keys={keys}
               />
             </Flex>
           ))}

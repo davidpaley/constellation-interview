@@ -22,6 +22,15 @@ export const TableWithFilters = () => {
     retry: 0,
   });
 
+  const keysSet: Set<string> = new Set();
+  if (data?.length) {
+    data.forEach(item => {
+      const keysItem = Object.keys(item);
+      keysItem.forEach(k => keysSet.add(k));
+    });
+  }
+  const keys = Array.from(keysSet || []);
+
   return (
     <>
       <Flex px={10} gap={6} direction="column" mb={!!url ? 5 : 60}>
@@ -31,10 +40,10 @@ export const TableWithFilters = () => {
           placeholder="URL"
           maxW="md"
         />
-        <Filters data={data} />
+        <Filters keys={keys} data={data} />
       </Flex>
       {!!url ? (
-        <Table data={data} isLoading={isLoading || isRefetching} />
+        <Table keys={keys} data={data} isLoading={isLoading || isRefetching} />
       ) : (
         <Container mb={40} color="gray.500">
           {"No data"}
