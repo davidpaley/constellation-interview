@@ -10,9 +10,9 @@ import {
   Skeleton,
   Stack,
 } from "@chakra-ui/react";
+import { ApiData } from "../../models";
 
-interface TableProps {
-  data: { [key: string]: any }[] | null | undefined;
+interface TableProps extends ApiData {
   isLoading: boolean;
 }
 export const Table = ({ data, isLoading }: TableProps) => {
@@ -32,9 +32,9 @@ export const Table = ({ data, isLoading }: TableProps) => {
   const arrayOfKeys = Object.keys(data[0]);
   return (
     <TableContainer
-      mx={5}
+      mx={10}
       mt={20}
-      mb={20}
+      mb={60}
       maxH="md"
       overflowX="auto"
       overflowY="auto"

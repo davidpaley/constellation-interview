@@ -1,20 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { Table } from "../table";
-import { Container, Input } from "@chakra-ui/react";
+import { Container, Flex, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 import { isURL } from "../../utils";
+import { Filters } from "../filters";
 
 export const TableWithFilters = () => {
   const [url, setUrl] = useState("");
-  const onChangeUrl = (value: string) => {
-    if (isURL(value)) {
-      setUrl(value);
-      return;
-    }
-    setUrl("");
-  };
-
+  const onChangeUrl = (value: string) => setUrl(isURL(value) ? value : "");
   const { data, isLoading, isRefetching, error } = useQuery({
     queryKey: ["data", url],
     queryFn: async () => {
@@ -30,14 +24,15 @@ export const TableWithFilters = () => {
 
   return (
     <>
-      <Input
-        onChange={e => onChangeUrl(e.target.value)}
-        mx={5}
-        mt={10}
-        mb={!!url ? 5 : 60}
-        placeholder="URL"
-        maxW="md"
-      />
+      <Flex px={10} gap={6} direction="column" mb={!!url ? 5 : 60}>
+        <Input
+          onChange={e => onChangeUrl(e.target.value)}
+          mt={10}
+          placeholder="URL"
+          maxW="md"
+        />
+        <Filters data={data} />
+      </Flex>
       {!!url ? (
         <Table data={data} isLoading={isLoading || isRefetching} />
       ) : (
