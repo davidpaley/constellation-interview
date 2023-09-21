@@ -12,12 +12,12 @@ interface OrFiltersProps {
 
 export const OrFilters = ({
   deleteParentFilter,
-  index: currentIndex,
+  index: andIndex,
   keys,
 }: OrFiltersProps) => {
-  const [isMobileViewOpen] = useMediaQuery(CUSTOM_MEDIA_QUERIES.MOBILE);
+  const [isMobileViewOpen] = useMediaQuery(CUSTOM_MEDIA_QUERIES.mobile);
   const [numberOfFilters, setNumberOfFilters] = useState(1);
-  console.log({ numberOfFilters });
+
   const renderArray = createArrayOfLength(numberOfFilters);
   const addFilter = () => {
     setNumberOfFilters(prevState => prevState + 1);
@@ -27,7 +27,7 @@ export const OrFilters = ({
     setNumberOfFilters(prevState => {
       const newValue = prevState - 1;
       if (newValue < 1) {
-        deleteParentFilter(currentIndex);
+        deleteParentFilter(andIndex);
       }
       return prevState - 1;
     });
@@ -54,8 +54,9 @@ export const OrFilters = ({
                 </Text>
               )}
               <SingleFilter
-                index={index}
                 addFilter={addFilter}
+                orIndex={index}
+                andIndex={andIndex}
                 deleteFilter={deleteFilter}
                 keys={keys}
               />

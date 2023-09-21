@@ -7,8 +7,9 @@ import { isURL } from "../../utils";
 import { Filters } from "../filters";
 
 export const TableWithFilters = () => {
-  const [url, setUrl] = useState("");
   const onChangeUrl = (value: string) => setUrl(isURL(value) ? value : "");
+  const [url, setUrl] = useState("");
+
   const { data, isLoading, isRefetching, error } = useQuery({
     queryKey: ["data", url],
     queryFn: async () => {
