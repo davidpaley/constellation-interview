@@ -1,4 +1,3 @@
-import { ApiData } from "../../models";
 import {
   Table as ChakraTable,
   Thead,
@@ -9,13 +8,11 @@ import {
   TableCaption,
   TableContainer,
   Skeleton,
-  SkeletonCircle,
-  SkeletonText,
   Stack,
 } from "@chakra-ui/react";
 
 interface TableProps {
-  data: ApiData[] | undefined;
+  data: { [key: string]: any }[] | undefined;
   isLoading: boolean;
 }
 export const Table = ({ data, isLoading }: TableProps) => {
@@ -31,6 +28,8 @@ export const Table = ({ data, isLoading }: TableProps) => {
       </Stack>
     );
   }
+  if (!data?.length) return null;
+  const arrayOfKeys = Object.keys(data[0]);
   return (
     <TableContainer
       mx={5}
@@ -44,30 +43,22 @@ export const Table = ({ data, isLoading }: TableProps) => {
         <TableCaption>Nasa Data</TableCaption>
         <Thead>
           <Tr>
-            {data?.length &&
-              Object.keys(data[0]).map(key => <Th key={key}>{key}</Th>)}
+            {data?.length && arrayOfKeys.map(key => <Th key={key}>{key}</Th>)}
           </Tr>
         </Thead>
         <Tbody>
           {data?.length &&
-            data.map(objectItem => (
-              <Tr key={objectItem.id}>
-                <Td>{objectItem.name || ""}</Td>
-                <Td>{objectItem.id || ""}</Td>
-                <Td>{objectItem.nametype || ""}</Td>
-                <Td>{objectItem.recclass || ""}</Td>
-                <Td>{objectItem.mass || ""}</Td>
-                <Td>{objectItem.fall || ""}</Td>
-                <Td>{new Date(objectItem.year).getFullYear() || ""}</Td>
-                <Td>{objectItem.reclat || ""}</Td>
-                <Td>{objectItem.reclong || ""}</Td>
-                <Td>
-                  {`type: ${objectItem?.geolocation?.type || "Unknown"}, ${
-                    objectItem?.geolocation?.coordinates?.length
-                      ? `coordinates: [${objectItem?.geolocation.coordinates[0]}, ${objectItem.geolocation.coordinates[1]}]`
-                      : ""
-                  } ` || ""}
-                </Td>
+            data.map((objectItem, index) => (
+              <Tr key={objectItem.id || index}>
+                {arrayOfKeys.map((key, index) => {
+                  return (
+                    <Td key={index}>
+                      {typeof objectItem[key] === "object"
+                        ? JSON.stringify(objectItem[key])
+                        : objectItem[key] || ""}
+                    </Td>
+                  );
+                })}
               </Tr>
             ))}
         </Tbody>
