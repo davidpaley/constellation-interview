@@ -6,7 +6,6 @@ import { RuleObject } from "../../models";
 interface OrFiltersProps {
   deleteParentFilter: (currentIndex: number) => void;
   index: number;
-  keys?: string[];
   rules: RuleObject[];
 }
 
@@ -14,7 +13,6 @@ export const OrFilters = ({
   deleteParentFilter,
   index: andIndex,
   rules,
-  keys,
 }: OrFiltersProps) => {
   useEffect(() => {
     if (rules.length < 1) {
@@ -51,7 +49,6 @@ export const OrFilters = ({
             <SingleFilter
               orIndex={index}
               andIndex={andIndex}
-              keys={keys}
               field={rule.field}
               operation={rule.operation}
               value={rule.value}

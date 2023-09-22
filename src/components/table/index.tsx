@@ -15,10 +15,9 @@ import { getFilteredData } from "../../utils/rules";
 
 interface TableProps extends ApiData {
   isLoading: boolean;
-  keys: string[];
 }
-export const Table = ({ data, isLoading, keys }: TableProps) => {
-  const { rules } = useMyContext();
+export const Table = ({ data, isLoading }: TableProps) => {
+  const { rules, keys } = useMyContext();
   if (isLoading) {
     return (
       <Stack mx={5} mt={20} mb={20}>

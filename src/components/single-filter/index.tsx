@@ -14,7 +14,6 @@ import { useMyContext } from "../../context/data-context";
 interface SingleFilterProps {
   orIndex: number;
   andIndex: number;
-  keys?: string[];
   field?: string;
   operation?: string;
   value?: string;
@@ -23,12 +22,11 @@ interface SingleFilterProps {
 export const SingleFilter = ({
   orIndex,
   andIndex,
-  keys,
   field: fieldProp,
   operation: operationProp,
   value: valueProp,
 }: SingleFilterProps) => {
-  const { dispatch } = useMyContext();
+  const { dispatch, keys } = useMyContext();
   const [field, setField] = useState(fieldProp || "");
   const [operation, setOperation] = useState(operationProp || "");
   const [value, setValue] = useState(valueProp || "");

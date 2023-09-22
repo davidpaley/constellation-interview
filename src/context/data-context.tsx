@@ -9,7 +9,7 @@ import { RuleObject, RuleState, RuleAction } from "../models";
 
 interface MyContextState {
   keys: string[];
-  setKeys: React.Dispatch<React.SetStateAction<never[]>>;
+  setKeys: React.Dispatch<React.SetStateAction<string[]>>;
   dispatch: React.Dispatch<RuleAction>;
   rules: RuleState;
 }
@@ -77,7 +77,7 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
   const [rules, dispatch] = useReducer(reducer, {
     data: [],
   } as RuleState);
-  const [keys, setKeys] = useState([]);
+  const [keys, setKeys] = useState<string[]>([]);
 
   console.log({ rules });
   return (

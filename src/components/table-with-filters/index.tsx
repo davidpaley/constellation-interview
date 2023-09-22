@@ -5,8 +5,10 @@ import { useState } from "react";
 import axios from "axios";
 import { isURL } from "../../utils";
 import { Filters } from "../filters";
+import { useMyContext } from "../../context/data-context";
 
 export const TableWithFilters = () => {
+  const { setKeys } = useMyContext();
   const onChangeUrl = (value: string) => setUrl(isURL(value) ? value : "");
   const [url, setUrl] = useState("");
 
@@ -18,6 +20,17 @@ export const TableWithFilters = () => {
         return response.data;
       }
       return null;
+    },
+    onSuccess: data => {
+      const keysSet: Set<string> = new Set();
+      if (data?.length) {
+        data.forEach(item => {
+          const keysItem = Object.keys(item);
+          keysItem.forEach(k => keysSet.add(k));
+        });
+      }
+      const keys = Array.from(keysSet || []);
+      setKeys(keys);
     },
     enabled: !!url,
     retry: 0,
@@ -41,10 +54,10 @@ export const TableWithFilters = () => {
           placeholder="URL"
           maxW="md"
         />
-        <Filters keys={keys} data={data} />
+        <Filters />
       </Flex>
       {!!url ? (
-        <Table keys={keys} data={data} isLoading={isLoading || isRefetching} />
+        <Table data={data} isLoading={isLoading || isRefetching} />
       ) : (
         <Container mb={40} color="gray.500">
           {"No data"}

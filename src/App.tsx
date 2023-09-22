@@ -6,7 +6,13 @@ import { TableWithFilters } from "./components/table-with-filters";
 import { ArrowDownIcon } from "@chakra-ui/icons";
 import { MyContextProvider } from "./context/data-context";
 function App() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false, // default: true
+      },
+    },
+  });
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>

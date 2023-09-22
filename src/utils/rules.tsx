@@ -6,8 +6,7 @@ const applyFilters = (dataItem: ApiDataObject, filters: RuleObject[][]) => {
   const applyFilter = (item: ApiDataObject, filter: RuleObject) => {
     const { field, operation, value } = filter;
     if (!filter.isValidated || !field || !value) {
-      //   throw new Error("Trying to evaluate an incorrect filter");
-      return true;
+      throw new Error("Trying to evaluate an incorrect filter");
     }
     console.log({ operation });
     switch (operation) {
@@ -33,11 +32,15 @@ const applyFilters = (dataItem: ApiDataObject, filters: RuleObject[][]) => {
   for (const orFilters of filters) {
     let orResult = false; // Initialize with false for OR logic
 
+    const filtersToEvaluate = orFilters.filter(
+      ({ isValidated, value, field, operation }) =>
+        isValidated && !!value && !!field && !!operation
+    );
+    if (!filtersToEvaluate.length) {
+      return true;
+    }
     // Iterate through the OR filters
-    for (const filter of orFilters) {
-      if (!filter.isValidated) {
-        continue;
-      }
+    for (const filter of filtersToEvaluate) {
       if (applyFilter(dataItem, filter)) {
         orResult = true; // If any filter in OR logic passes, set to true
         break; // No need to check other OR filters

@@ -5,13 +5,10 @@ import { OrFilters } from "../or-filters";
 import { useState } from "react";
 import React from "react";
 import { useMyContext } from "../../context/data-context";
-interface FiltersProps extends ApiData {
-  keys?: string[];
-}
 
-export const Filters = ({ data, keys }: FiltersProps) => {
+export const Filters = () => {
   const [_, setNumberOFilters] = useState(0);
-  const { dispatch, rules } = useMyContext();
+  const { dispatch, rules, keys } = useMyContext();
 
   const addFilter = () => {
     setNumberOFilters(prevState => {
@@ -40,7 +37,6 @@ export const Filters = ({ data, keys }: FiltersProps) => {
               </Text>
             )}
             <OrFilters
-              keys={keys}
               rules={orRules}
               deleteParentFilter={deleteFilter}
               index={index}
@@ -57,7 +53,7 @@ export const Filters = ({ data, keys }: FiltersProps) => {
         onClick={() => addFilter()}
         isDisabled={!keys?.length}
       >
-        AND
+        {rulesToRender.length ? "AND" : "Filters"}
       </Button>
     </Flex>
   );
