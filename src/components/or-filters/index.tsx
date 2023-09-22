@@ -1,7 +1,7 @@
 import { Flex, Text, useMediaQuery } from "@chakra-ui/react";
 import { CUSTOM_MEDIA_QUERIES } from "../../constants";
 import { SingleFilter } from "../single-filter";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { RuleObject } from "../../models";
 
 interface OrFiltersProps {
@@ -18,21 +18,11 @@ export const OrFilters = ({
   keys,
 }: OrFiltersProps) => {
   const [isMobileViewOpen] = useMediaQuery(CUSTOM_MEDIA_QUERIES.mobile);
-  const [numberOfEmptyFilters, setNumberOfEmptyFilters] = useState(1);
-
-  const addFilter = (orIndex: number) => {
-    setNumberOfEmptyFilters(prevState => prevState + 1);
-  };
   useEffect(() => {
-    if (numberOfEmptyFilters < 1) {
+    if (rules.length < 1) {
       deleteParentFilter(andIndex);
     }
-  }, [numberOfEmptyFilters]);
-  const deleteFilter = (index: number) => {
-    setNumberOfEmptyFilters(prevState => {
-      return prevState - 1;
-    });
-  };
+  }, [rules.length, deleteParentFilter]);
 
   return (
     <Flex
@@ -56,10 +46,8 @@ export const OrFilters = ({
               </Text>
             )}
             <SingleFilter
-              addFilter={addFilter}
               orIndex={index}
               andIndex={andIndex}
-              deleteFilter={deleteFilter}
               keys={keys}
               field={rule.field}
               operation={rule.operation}

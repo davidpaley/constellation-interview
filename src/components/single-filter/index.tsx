@@ -12,22 +12,18 @@ import { isStringANumber } from "../../utils";
 import { useMyContext } from "../../context/data-context";
 
 interface SingleFilterProps {
-  deleteFilter: (index: number) => void;
   orIndex: number;
   andIndex: number;
   keys?: string[];
-  addFilter: (orIndex: number) => void;
   field?: string;
   operation?: string;
   value?: string;
 }
 
 export const SingleFilter = ({
-  deleteFilter,
   orIndex,
   andIndex,
   keys,
-  addFilter,
   field: fieldProp,
   operation: operationProp,
   value: valueProp,
@@ -44,7 +40,7 @@ export const SingleFilter = ({
       orIndex,
       newRule: { field, operation, value, isValidated: isValidated() },
     });
-  }, [field, operation, value]);
+  }, [field, operation, value, dispatch]);
 
   const onAddFiler = () => {
     dispatch({
@@ -58,7 +54,6 @@ export const SingleFilter = ({
         isValidated: false,
       },
     });
-    addFilter(orIndex);
   };
 
   const onDeleteFilter = () => {
@@ -67,7 +62,6 @@ export const SingleFilter = ({
       andIndex,
       orIndex,
     });
-    deleteFilter(orIndex);
   };
 
   const isValidated = () =>

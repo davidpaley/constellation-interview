@@ -10,7 +10,7 @@ interface FiltersProps extends ApiData {
 }
 
 export const Filters = ({ data, keys }: FiltersProps) => {
-  const [numberOFilters, setNumberOFilters] = useState(0);
+  const [_, setNumberOFilters] = useState(0);
   const { dispatch, rules } = useMyContext();
 
   const addFilter = () => {
@@ -25,7 +25,7 @@ export const Filters = ({ data, keys }: FiltersProps) => {
     });
   };
 
-  const deleteFilter = (index: number) => {
+  const deleteFilter = () => {
     setNumberOFilters(prevState => prevState - 1);
   };
   const rulesToRender = rules?.data;
