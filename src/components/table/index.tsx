@@ -9,13 +9,16 @@ import {
   Skeleton,
   Stack,
 } from "@chakra-ui/react";
+import { useMyContext } from "../../context/data-context";
 import { ApiData } from "../../models";
+import { getFilteredData } from "../../utils/rules";
 
 interface TableProps extends ApiData {
   isLoading: boolean;
   keys: string[];
 }
 export const Table = ({ data, isLoading, keys }: TableProps) => {
+  const { rules } = useMyContext();
   if (isLoading) {
     return (
       <Stack mx={5} mt={20} mb={20}>
@@ -29,6 +32,8 @@ export const Table = ({ data, isLoading, keys }: TableProps) => {
     );
   }
   if (!data?.length) return null;
+
+  const filteredData = getFilteredData(data, rules.data);
   return (
     <TableContainer
       mx={10}
@@ -43,20 +48,19 @@ export const Table = ({ data, isLoading, keys }: TableProps) => {
           <Tr>{data?.length && keys.map(key => <Th key={key}>{key}</Th>)}</Tr>
         </Thead>
         <Tbody>
-          {data?.length &&
-            data.map((objectItem, index) => (
-              <Tr key={objectItem.id || index}>
-                {keys.map((key, index) => {
-                  return (
-                    <Td key={index}>
-                      {typeof objectItem[key] === "object"
-                        ? JSON.stringify(objectItem[key])
-                        : objectItem[key] || ""}
-                    </Td>
-                  );
-                })}
-              </Tr>
-            ))}
+          {filteredData.map((objectItem, index) => (
+            <Tr key={objectItem.id || index}>
+              {keys.map((key, index) => {
+                return (
+                  <Td key={index}>
+                    {typeof objectItem[key] === "object"
+                      ? JSON.stringify(objectItem[key])
+                      : objectItem[key] || ""}
+                  </Td>
+                );
+              })}
+            </Tr>
+          ))}
         </Tbody>
       </ChakraTable>
     </TableContainer>

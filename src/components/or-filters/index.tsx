@@ -1,5 +1,4 @@
-import { Flex, Text, useMediaQuery } from "@chakra-ui/react";
-import { CUSTOM_MEDIA_QUERIES } from "../../constants";
+import { Flex, Text } from "@chakra-ui/react";
 import { SingleFilter } from "../single-filter";
 import { useEffect } from "react";
 import { RuleObject } from "../../models";
@@ -17,7 +16,6 @@ export const OrFilters = ({
   rules,
   keys,
 }: OrFiltersProps) => {
-  const [isMobileViewOpen] = useMediaQuery(CUSTOM_MEDIA_QUERIES.mobile);
   useEffect(() => {
     if (rules.length < 1) {
       deleteParentFilter(andIndex);
@@ -28,16 +26,21 @@ export const OrFilters = ({
     <Flex
       border="0.3px solid #A0AEC0"
       padding={5}
-      direction={isMobileViewOpen ? "column" : "row"}
+      direction={{
+        base: "column",
+        md: "row",
+      }}
       gap={6}
     >
       <Flex direction="column" gap={3} width="100%">
         {rules.map((rule, index) => (
           <Flex
             key={`${index}-${andIndex}-${rules.length}`}
-            // key={`${index}-${rule.field}-${rule.operation}`}
             gap={3}
-            direction={isMobileViewOpen ? "column" : "row"}
+            direction={{
+              base: "column",
+              md: "row",
+            }}
             width="100%"
           >
             {index > 0 && (

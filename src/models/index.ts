@@ -1,5 +1,8 @@
+export interface ApiDataObject {
+  [key: string]: any;
+}
 export interface ApiData {
-  data?: { [key: string]: any }[] | null;
+  data?: ApiDataObject[] | null;
 }
 
 export interface RuleObject {
