@@ -17,6 +17,8 @@ interface SingleFilterProps {
   field?: string;
   operation?: string;
   value?: string;
+  showAddFilterSkeleton: (showSkeleton: boolean) => void;
+  rulesLength: number;
 }
 
 export const SingleFilter = ({
@@ -25,6 +27,8 @@ export const SingleFilter = ({
   field: fieldProp,
   operation: operationProp,
   value: valueProp,
+  showAddFilterSkeleton,
+  rulesLength,
 }: SingleFilterProps) => {
   const { dispatch, keys } = useMyContext();
   const [field, setField] = useState(fieldProp || "");
@@ -44,7 +48,7 @@ export const SingleFilter = ({
     dispatch({
       type: "add_rule",
       andIndex,
-      orIndex: orIndex + 1,
+      orIndex: rulesLength,
       newRule: {
         field: "",
         operation: "",
@@ -66,7 +70,7 @@ export const SingleFilter = ({
     !(
       (operation === OPERATIONS.greaterThan ||
         operation === OPERATIONS.lessThan) &&
-      value !== "" &&
+      (value !== "" || !value) &&
       !isStringANumber(value)
     );
 
@@ -121,6 +125,8 @@ export const SingleFilter = ({
         color="blue"
         aria-label="Search database"
         onClick={onAddFiler}
+        onMouseEnter={() => showAddFilterSkeleton(true)}
+        onMouseLeave={() => showAddFilterSkeleton(false)}
         icon={<AddIcon />}
       />
       <IconButton

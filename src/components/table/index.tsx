@@ -8,6 +8,7 @@ import {
   TableContainer,
   Skeleton,
   Stack,
+  Container,
 } from "@chakra-ui/react";
 import { useMyContext } from "../../context/data-context";
 import { ApiData } from "../../models";
@@ -30,9 +31,23 @@ export const Table = ({ data, isLoading }: TableProps) => {
       </Stack>
     );
   }
-  if (!data?.length) return null;
+  if (!data?.length) {
+    return (
+      <Container mb={40} color="gray.500">
+        {"No data "}
+      </Container>
+    );
+  }
 
   const filteredData = getFilteredData(data, rules.data);
+
+  if (!filteredData.length) {
+    return (
+      <Container mb={40} color="gray.500">
+        {"No data for those filters"}
+      </Container>
+    );
+  }
   return (
     <TableContainer
       mx={10}

@@ -36,15 +36,6 @@ export const TableWithFilters = () => {
     retry: 0,
   });
 
-  const keysSet: Set<string> = new Set();
-  if (data?.length) {
-    data.forEach(item => {
-      const keysItem = Object.keys(item);
-      keysItem.forEach(k => keysSet.add(k));
-    });
-  }
-  const keys = Array.from(keysSet || []);
-
   return (
     <>
       <Flex px={10} gap={6} direction="column" mb={!!url ? 5 : 60}>

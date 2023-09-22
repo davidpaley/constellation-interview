@@ -8,7 +8,6 @@ const applyFilters = (dataItem: ApiDataObject, filters: RuleObject[][]) => {
     if (!filter.isValidated || !field || !value) {
       throw new Error("Trying to evaluate an incorrect filter");
     }
-    console.log({ operation });
     switch (operation) {
       case OPERATIONS.contain:
         return item[field].includes(value);

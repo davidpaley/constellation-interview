@@ -1,25 +1,15 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Skeleton, Text } from "@chakra-ui/react";
 import { SingleFilter } from "../single-filter";
-import { useEffect } from "react";
+import { useState } from "react";
 import { RuleObject } from "../../models";
 
 interface OrFiltersProps {
-  deleteParentFilter: (currentIndex: number) => void;
   index: number;
   rules: RuleObject[];
 }
 
-export const OrFilters = ({
-  deleteParentFilter,
-  index: andIndex,
-  rules,
-}: OrFiltersProps) => {
-  useEffect(() => {
-    if (rules.length < 1) {
-      deleteParentFilter(andIndex);
-    }
-  }, [rules.length, deleteParentFilter]);
-
+export const OrFilters = ({ index: andIndex, rules }: OrFiltersProps) => {
+  const [skeletonForAdding, showSkeletonForAdding] = useState(false);
   return (
     <Flex
       border="0.3px solid #A0AEC0"
@@ -51,10 +41,13 @@ export const OrFilters = ({
               andIndex={andIndex}
               field={rule.field}
               operation={rule.operation}
+              showAddFilterSkeleton={showSkeletonForAdding}
               value={rule.value}
+              rulesLength={rules.length}
             />
           </Flex>
         ))}
+        {skeletonForAdding && <Skeleton height="50px" />}
       </Flex>
     </Flex>
   );

@@ -79,7 +79,6 @@ const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
   } as RuleState);
   const [keys, setKeys] = useState<string[]>([]);
 
-  console.log({ rules });
   return (
     <MyContext.Provider value={{ keys, setKeys, rules, dispatch }}>
       {children}
