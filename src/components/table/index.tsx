@@ -5,7 +5,6 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Skeleton,
   Stack,

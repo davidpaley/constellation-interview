@@ -3,9 +3,10 @@ export interface ApiData {
 }
 
 export interface RuleObject {
-  field: string;
-  operation: string;
-  value: string;
+  field?: string;
+  operation?: string;
+  value?: string;
+  isValidated?: boolean;
 }
 
 export interface RuleAction {

@@ -3,46 +3,50 @@ import { Flex, Button, Text } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { OrFilters } from "../or-filters";
 import { useState } from "react";
-import { createArrayOfLength } from "../../utils";
 import React from "react";
+import { useMyContext } from "../../context/data-context";
 interface FiltersProps extends ApiData {
   keys?: string[];
 }
 
 export const Filters = ({ data, keys }: FiltersProps) => {
-  const [numberOfFilters, setNumberOfFilters] = useState(0);
-  const renderArray = createArrayOfLength(numberOfFilters);
+  const [numberOFilters, setNumberOFilters] = useState(0);
+  const { dispatch, rules } = useMyContext();
 
   const addFilter = () => {
-    // https://github.com/chakra-ui/chakra-ui/issues/7269
-    if (!keys?.length) {
-      return;
-    }
-    setNumberOfFilters(prevState => prevState + 1);
+    setNumberOFilters(prevState => {
+      dispatch({
+        type: "add_rule",
+        andIndex: prevState,
+        orIndex: 0,
+        newRule: { field: "", operation: "", value: "", isValidated: false },
+      });
+      return prevState + 1;
+    });
   };
 
   const deleteFilter = (index: number) => {
-    setNumberOfFilters(prevState => prevState - 1);
+    setNumberOFilters(prevState => prevState - 1);
   };
-
+  const rulesToRender = rules?.data;
   return (
     <Flex direction="column">
       <Flex direction="column" gap={3}>
-        {numberOfFilters > 0 &&
-          renderArray.map((_, index) => (
-            <React.Fragment key={index}>
-              {index > 0 && (
-                <Text color="gray.400" textAlign="left" fontSize="2xl">
-                  AND
-                </Text>
-              )}
-              <OrFilters
-                keys={keys}
-                deleteParentFilter={deleteFilter}
-                index={index}
-              />
-            </React.Fragment>
-          ))}
+        {rulesToRender.map((orRules, index) => (
+          <React.Fragment key={`${index}-${rulesToRender.length}`}>
+            {index > 0 && (
+              <Text color="gray.400" textAlign="left" fontSize="2xl">
+                AND
+              </Text>
+            )}
+            <OrFilters
+              keys={keys}
+              rules={orRules}
+              deleteParentFilter={deleteFilter}
+              index={index}
+            />
+          </React.Fragment>
+        ))}
       </Flex>
 
       <Button
@@ -51,6 +55,7 @@ export const Filters = ({ data, keys }: FiltersProps) => {
         colorScheme="facebook"
         leftIcon={<AddIcon />}
         onClick={() => addFilter()}
+        isDisabled={!keys?.length}
       >
         AND
       </Button>

@@ -1,7 +1,6 @@
 import React, {
   createContext,
   ReactNode,
-  Reducer,
   useContext,
   useReducer,
   useState,
@@ -12,13 +11,6 @@ interface MyContextState {
   keys: string[];
   setKeys: React.Dispatch<React.SetStateAction<never[]>>;
   dispatch: React.Dispatch<RuleAction>;
-
-  // onRulesChange: (
-  //   ruleObject: RuleObject,
-  //   orIndex: number,
-  //   andIndex: number
-  // ) => void;
-  // TODO: change any
   rules: RuleState;
 }
 
@@ -34,23 +26,37 @@ function reducer(state: RuleState, action: RuleAction): RuleState {
       if (!state.data[action.andIndex]) {
         // adding rule in an empty or array
         return {
-          data: [...state.data, [{ ...(action.newRule as RuleObject) }]],
+          data: [
+            ...state.data,
+            [
+              {
+                ...action.newRule,
+              } as RuleObject,
+            ],
+          ],
         };
       }
       const newRuleArray = [...state.data];
       const orArray = [...newRuleArray[action.andIndex]];
-      orArray[action.orIndex as number] = action.newRule as RuleObject;
+      orArray[action.orIndex as number] = {
+        ...action.newRule,
+      } as RuleObject;
       newRuleArray[action.andIndex] = orArray;
       return {
         data: newRuleArray,
       };
     }
     case "delete_or_rule": {
-      const newRuleArray = [...state.data];
+      let newRuleArray = [...state.data];
       const orArray = [...newRuleArray[action.andIndex]];
       newRuleArray[action.andIndex] = orArray.filter(
         (_, index) => index !== action.orIndex
       );
+      if (!newRuleArray[action.andIndex].length) {
+        newRuleArray = [
+          ...state.data.filter((_, index) => index !== action.andIndex),
+        ];
+      }
       return {
         data: newRuleArray,
       };
@@ -66,22 +72,14 @@ function reducer(state: RuleState, action: RuleAction): RuleState {
   }
   throw Error("Unknown action: " + action.type);
 }
-// Create a context provider component
-const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
-  // const [rules, setRules] = useState({});
-  const [rules, dispatch] = useReducer(reducer, { data: [] } as RuleState);
 
-  // <(state: RuleState, action: RuleAction) => RuleState, RuleState>
+const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
+  const [rules, dispatch] = useReducer(reducer, {
+    data: [],
+  } as RuleState);
   const [keys, setKeys] = useState([]);
 
-  // const onRulesChange = (
-  //   ruleObject: RuleObject,
-  //   orIndex: number,
-  //   andIndex: number
-  // ) => {
-  //   console.log("on rules change");
-  // };
-
+  console.log({ rules });
   return (
     <MyContext.Provider value={{ keys, setKeys, rules, dispatch }}>
       {children}

@@ -9,14 +9,17 @@ import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { OPERATIONS } from "../../constants";
 import { isStringANumber } from "../../utils";
-import { RuleObject } from "../../models";
+import { useMyContext } from "../../context/data-context";
 
 interface SingleFilterProps {
   deleteFilter: (index: number) => void;
   orIndex: number;
   andIndex: number;
   keys?: string[];
-  addFilter: () => void;
+  addFilter: (orIndex: number) => void;
+  field?: string;
+  operation?: string;
+  value?: string;
 }
 
 export const SingleFilter = ({
@@ -25,30 +28,64 @@ export const SingleFilter = ({
   andIndex,
   keys,
   addFilter,
+  field: fieldProp,
+  operation: operationProp,
+  value: valueProp,
 }: SingleFilterProps) => {
-  const [field, setField] = useState("");
-  const [operation, setOperation] = useState("");
-  const [value, setValue] = useState("");
-  // TODO: Set rule
-  //   useEffect(() => {
-  //     if (!!field && !!operation && !!value && !isError()) {
-  //       setFilter({ field, operation, value }, index);
-  //     }
-  //   }, [field, operation, value]);
+  const { dispatch } = useMyContext();
+  const [field, setField] = useState(fieldProp || "");
+  const [operation, setOperation] = useState(operationProp || "");
+  const [value, setValue] = useState(valueProp || "");
 
-  const isError = () =>
-    (operation === OPERATIONS.greaterThan ||
-      operation === OPERATIONS.lessThan) &&
-    value !== "" &&
-    !isStringANumber(value);
+  useEffect(() => {
+    dispatch({
+      type: "add_rule",
+      andIndex,
+      orIndex,
+      newRule: { field, operation, value, isValidated: isValidated() },
+    });
+  }, [field, operation, value]);
 
-  const errorInValue = isError();
+  const onAddFiler = () => {
+    dispatch({
+      type: "add_rule",
+      andIndex,
+      orIndex: orIndex + 1,
+      newRule: {
+        field: "",
+        operation: "",
+        value: "",
+        isValidated: false,
+      },
+    });
+    addFilter(orIndex);
+  };
+
+  const onDeleteFilter = () => {
+    dispatch({
+      type: "delete_or_rule",
+      andIndex,
+      orIndex,
+    });
+    deleteFilter(orIndex);
+  };
+
+  const isValidated = () =>
+    !(
+      (operation === OPERATIONS.greaterThan ||
+        operation === OPERATIONS.lessThan) &&
+      value !== "" &&
+      !isStringANumber(value)
+    );
+
+  const errorInValue = !isValidated();
   return (
     <>
       <Select
         onChange={e => {
           setField(e.target.value);
         }}
+        value={field}
         disabled={!keys?.length}
         placeholder="Field selection"
       >
@@ -64,6 +101,7 @@ export const SingleFilter = ({
         onChange={e => {
           setOperation(e.target.value);
         }}
+        value={operation}
         placeholder="Operator"
       >
         <option value={OPERATIONS.equals}>Equals</option>
@@ -90,7 +128,7 @@ export const SingleFilter = ({
         disabled={!keys?.length}
         color="blue"
         aria-label="Search database"
-        onClick={addFilter}
+        onClick={onAddFiler}
         icon={<AddIcon />}
       />
       <IconButton
@@ -98,7 +136,7 @@ export const SingleFilter = ({
         color="#ff8585"
         aria-label="Search database"
         icon={<DeleteIcon />}
-        onClick={() => deleteFilter(orIndex)}
+        onClick={onDeleteFilter}
       />
     </>
   );

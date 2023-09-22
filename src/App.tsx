@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Image } from "@chakra-ui/react";
 import { TableWithFilters } from "./components/table-with-filters";
 import { ArrowDownIcon } from "@chakra-ui/icons";
+import { MyContextProvider } from "./context/data-context";
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -19,7 +20,9 @@ function App() {
             <p className="App-subtitle">Condition Builder solution</p>
             <ArrowDownIcon mt={20} w={40} h={40} color="#ff8585" />
           </header>
-          <TableWithFilters />
+          <MyContextProvider>
+            <TableWithFilters />
+          </MyContextProvider>
         </div>
       </ChakraProvider>
     </QueryClientProvider>
