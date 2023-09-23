@@ -48,22 +48,14 @@ export const TableWithFilters = () => {
         <Filters />
       </Flex>
       {!!url ? (
-        <Table data={data} isLoading={isLoading || isRefetching} />
+        <Table
+          data={data}
+          isLoading={isLoading || isRefetching}
+          error={error}
+        />
       ) : (
         <Container mb={40} color="gray.500">
           {"No data"}
-        </Container>
-      )}
-      {!!error && (
-        <Container
-          mb={40}
-          height="50vh"
-          display={"flex"}
-          justifyContent="center"
-          alignItems={"center"}
-          color="red.500"
-        >
-          {"Error fetching data"}
         </Container>
       )}
     </>

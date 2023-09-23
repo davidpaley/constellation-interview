@@ -1,8 +1,11 @@
 import { OPERATIONS } from "../constants";
 import { ApiDataObject, RuleObject } from "../models";
 
-const applyFilters = (dataItem: ApiDataObject, filters: RuleObject[][]) => {
-  // Define a function to apply an individual filter
+export const applyFilters = (
+  dataItem: ApiDataObject,
+  filters: RuleObject[][]
+) => {
+  // Function to apply an individual filter
   const applyFilter = (item: ApiDataObject, filter: RuleObject) => {
     const { field, operation, value } = filter;
     if (!filter.isValidated || !field || !value) {

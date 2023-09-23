@@ -16,12 +16,28 @@ import { getFilteredData } from "../../utils/rules";
 
 interface TableProps extends ApiData {
   isLoading: boolean;
+  error?: unknown;
 }
-export const Table = ({ data, isLoading }: TableProps) => {
+export const Table = ({ data, isLoading, error }: TableProps) => {
   const { rules, keys } = useMyContext();
+
+  if (!!error) {
+    return (
+      <Container
+        mb={40}
+        height="50vh"
+        display={"flex"}
+        justifyContent="center"
+        alignItems={"center"}
+        color="red.500"
+      >
+        {"Error fetching data"}
+      </Container>
+    );
+  }
   if (isLoading) {
     return (
-      <Stack mx={5} mt={20} mb={20}>
+      <Stack data-testid="loading-skeleton" mx={5} mt={20} mb={20}>
         <Skeleton height="45px" />
         <Skeleton height="45px" />
         <Skeleton height="45px" />
@@ -31,6 +47,7 @@ export const Table = ({ data, isLoading }: TableProps) => {
       </Stack>
     );
   }
+
   if (!data?.length) {
     return (
       <Container mb={40} color="gray.500">
