@@ -55,7 +55,7 @@ export const TableWithFilters = () => {
         />
       ) : (
         <Container mb={40} color="gray.500">
-          {"No data"}
+          {"Please set an URL to load data from an array"}
         </Container>
       )}
     </>
