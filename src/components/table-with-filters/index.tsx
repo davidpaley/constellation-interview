@@ -45,7 +45,7 @@ export const TableWithFilters = () => {
           placeholder="URL"
           maxW="md"
         />
-        <Filters />
+        <Filters error={error} url={url} isLoading={isLoading} />
       </Flex>
       {!!url ? (
         <Table

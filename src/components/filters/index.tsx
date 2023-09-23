@@ -1,10 +1,18 @@
-import { Flex, Button, Text } from "@chakra-ui/react";
+import { Flex, Button, Text, Skeleton } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { OrFilters } from "../or-filters";
 import React from "react";
 import { useMyContext } from "../../context/data-context";
 
-export const Filters = () => {
+export const Filters = ({
+  error,
+  isLoading,
+  url,
+}: {
+  error?: unknown;
+  isLoading?: boolean;
+  url?: string;
+}) => {
   const { dispatch, rules, keys } = useMyContext();
 
   const addFilter = () => {
@@ -20,25 +28,31 @@ export const Filters = () => {
   return (
     <Flex direction="column">
       <Flex direction="column" gap={3}>
-        {rulesToRender.map((orRules, index) => (
-          <React.Fragment key={`${index}-${rulesToRender.length}`}>
-            {index > 0 && (
-              <Text color="gray.400" textAlign="left" fontSize="2xl">
-                AND
-              </Text>
-            )}
-            <OrFilters rules={orRules} index={index} />
-          </React.Fragment>
-        ))}
+        {isLoading && !!rulesToRender.length && !!url && (
+          <Skeleton height={{ base: "289px", md: "81px" }} />
+        )}
+        {!error &&
+          !isLoading &&
+          rulesToRender.map((orRules, index) => (
+            <React.Fragment key={`${index}-${rulesToRender.length}`}>
+              {index > 0 && (
+                <Text color="gray.400" textAlign="left" fontSize="2xl">
+                  AND
+                </Text>
+              )}
+              <OrFilters rules={orRules} index={index} />
+            </React.Fragment>
+          ))}
       </Flex>
 
       <Button
         my={5}
-        maxW="xs"
-        colorScheme="facebook"
+        maxW="10rem"
         leftIcon={<AddIcon />}
         onClick={() => addFilter()}
-        isDisabled={!keys?.length}
+        isDisabled={!keys?.length || !!error}
+        colorScheme="orange"
+        variant={"outline"}
       >
         {rulesToRender.length ? "AND" : "Filters"}
       </Button>

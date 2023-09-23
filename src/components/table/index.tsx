@@ -9,6 +9,9 @@ import {
   Skeleton,
   Stack,
   Container,
+  Heading,
+  Flex,
+  Tag,
 } from "@chakra-ui/react";
 import { useMyContext } from "../../context/data-context";
 import { ApiData } from "../../models";
@@ -66,34 +69,53 @@ export const Table = ({ data, isLoading, error }: TableProps) => {
     );
   }
   return (
-    <TableContainer
-      mx={10}
-      mt={20}
-      mb={60}
-      maxH="md"
-      overflowX="auto"
-      overflowY="auto"
-    >
-      <ChakraTable variant="simple">
-        <Thead>
-          <Tr>{data?.length && keys.map(key => <Th key={key}>{key}</Th>)}</Tr>
-        </Thead>
-        <Tbody>
-          {filteredData.map((objectItem, index) => (
-            <Tr key={objectItem.id || index}>
-              {keys.map((key, index) => {
-                return (
-                  <Td key={index}>
-                    {typeof objectItem[key] === "object"
-                      ? JSON.stringify(objectItem[key])
-                      : objectItem[key] || ""}
-                  </Td>
-                );
-              })}
-            </Tr>
-          ))}
-        </Tbody>
-      </ChakraTable>
-    </TableContainer>
+    <>
+      <Heading mt={10} mb={5} mx={10} textAlign={"left"}>
+        Results
+      </Heading>
+      <Flex mb={3} mx={10} gap={3}>
+        <Tag maxW={40} px={5} size={{ base: "md", md: "lg" }} height="0.5rem">
+          {`Total: ${data.length}`}
+        </Tag>
+        <Tag
+          variant="solid"
+          maxW={40}
+          px={5}
+          size={{ base: "md", md: "lg" }}
+          height="0.5rem"
+          colorScheme="orange"
+        >
+          {`Filtered: ${filteredData.length}`}
+        </Tag>
+      </Flex>
+      <TableContainer
+        mx={10}
+        mb={60}
+        maxH="md"
+        overflowX="auto"
+        overflowY="auto"
+      >
+        <ChakraTable variant="simple">
+          <Thead>
+            <Tr>{data?.length && keys.map(key => <Th key={key}>{key}</Th>)}</Tr>
+          </Thead>
+          <Tbody>
+            {filteredData.map((objectItem, index) => (
+              <Tr key={objectItem.id || index}>
+                {keys.map((key, index) => {
+                  return (
+                    <Td key={index}>
+                      {typeof objectItem[key] === "object"
+                        ? JSON.stringify(objectItem[key])
+                        : objectItem[key] || ""}
+                    </Td>
+                  );
+                })}
+              </Tr>
+            ))}
+          </Tbody>
+        </ChakraTable>
+      </TableContainer>
+    </>
   );
 };

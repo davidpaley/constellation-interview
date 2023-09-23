@@ -1,15 +1,21 @@
-# Condition Builder solution
+# Frontend exercise: Condition Builder solution
 
 This tool allows you to load an array of data and layer in and/or conditions to filter the data.
 
-You can see how to test this project [here](https://www.loom.com/share/cac8eccc8cd3450ba0da3304c3d873b8?sid=9d651961-778c-4bd6-8a9e-47f3f6277a41)
+You can see how to test this project [here](https://www.loom.com/share/968251317ae74b8aade942c53f247e26?sid=4a7b5a9c-b0b0-48b3-bb76-cccaa69d91f9)
 
-## Improvements
+## Component Library
 
-- Add more automated tests, specially for the components that set the filters
-- Add automated E2E tests with Cypress, being able to automate a complete flow in the browser
-- Add more validations to the filters input (for example, when you select a regex as the operation, check that you set a correct regex).
-- Check that the data that the URL returns is an array, and, if not, show an error message.
+This project leverages [Chakra UI](https://chakra-ui.com/) as it's component library, utilizing the [default theme](https://chakra-ui.com/docs/styled-system/theme) as the foundation for our design system.
+
+## Potential Enhancements
+
+While the current version of the project is functional, here are some areas where improvements and enhancements could be made:
+
+- Implement additional automated tests, particularly for components responsible for setting filters.
+- Introduce end-to-end (E2E) testing with Cypress to automate complete browser-based workflows.
+- Enhance input validation for filters, such as verifying the correctness of regular expressions, possibly by integrating React Hook Form.
+- Perform data validation to ensure that the data returned by the URL is in the expected array format, display an error message if it isn't.
 
 ## Execute the project
 
