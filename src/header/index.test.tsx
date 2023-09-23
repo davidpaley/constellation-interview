@@ -1,14 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import App from "./App";
+import { Header } from "./index";
 
 test("renders Condition Builder solution text", () => {
-  render(<App />);
+  render(<Header />);
   const linkElement = screen.getByText(/Condition Builder solution/i);
   expect(linkElement).toBeInTheDocument();
 });
 
 test("Logo image is present in the component", () => {
-  const { getByAltText } = render(<App />);
+  const { getByAltText } = render(<Header />);
   const image = getByAltText("constellation logo");
   expect(image).toBeInTheDocument();
 });
