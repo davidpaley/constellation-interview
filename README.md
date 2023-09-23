@@ -4,6 +4,10 @@ This tool allows you to load an array of data and layer in and/or conditions to 
 
 You can see how to test this project [here](https://www.loom.com/share/968251317ae74b8aade942c53f247e26?sid=4a7b5a9c-b0b0-48b3-bb76-cccaa69d91f9) (and you could use [this url](https://data.nasa.gov/resource/y77d-th95.json) as source URL).
 
+## Deployment
+
+This project was deployed in Vercel. You can find the deployement [here](https://condition-builder-snowy.vercel.app/)
+
 ## Component Library
 
 This project leverages [Chakra UI](https://chakra-ui.com/) as it's component library, utilizing the [default theme](https://chakra-ui.com/docs/styled-system/theme) as the foundation for our design system.
