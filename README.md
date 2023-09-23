@@ -16,6 +16,8 @@ While the current version of the project is functional, here are some areas wher
 - Introduce end-to-end (E2E) testing with Cypress to automate complete browser-based workflows.
 - Enhance input validation for filters, such as verifying the correctness of regular expressions, possibly by integrating React Hook Form.
 - Perform data validation to ensure that the data returned by the URL is in the expected array format, display an error message if it isn't.
+- Enhance the table functionality by incorporating features such as pagination, sorting options, and a search mechanism to improve data organization and accessibility.
+- Integrate accessibility tests to ensure that the application is inclusive and complies with accessibility standards, providing a seamless user experience for all.
 
 ## Execute the project
 
