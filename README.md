@@ -2,7 +2,7 @@
 
 This tool allows you to load an array of data and layer in and/or conditions to filter the data.
 
-You can see how to test this project [here](https://www.loom.com/share/968251317ae74b8aade942c53f247e26?sid=4a7b5a9c-b0b0-48b3-bb76-cccaa69d91f9)
+You can see how to test this project [here](https://www.loom.com/share/968251317ae74b8aade942c53f247e26?sid=4a7b5a9c-b0b0-48b3-bb76-cccaa69d91f9) (and you could use [this url](https://data.nasa.gov/resource/y77d-th95.json) as source URL).
 
 ## Component Library
 
