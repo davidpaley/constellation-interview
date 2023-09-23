@@ -22,6 +22,8 @@ While the current version of the project is functional, here are some areas wher
 - Perform data validation to ensure that the data returned by the URL is in the expected array format, display an error message if it isn't.
 - Enhance the table functionality by incorporating features such as pagination, sorting options, and a search mechanism to improve data organization and accessibility.
 - Integrate accessibility tests to ensure that the application is inclusive and complies with accessibility standards, providing a seamless user experience for all.
+- Create a dedicated file to store all custom colors used in the project. Export these colors from the file to promote consistency and maintainability, eliminating the need for hardcoding color values throughout the codebase.
+- Establish a separate constant file specifically for storing all hardcoded strings within the project. This approach streamlines string management, making it easier to update and maintain textual content across the application.
 
 ## Execute the project
 
