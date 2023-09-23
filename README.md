@@ -1,4 +1,4 @@
-# Frontend exercise: Condition Builder solution
+# Condition Builder solution
 
 This tool allows you to load an array of data and layer in and/or conditions to filter the data.
 
