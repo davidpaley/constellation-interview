@@ -24,6 +24,7 @@ While the current version of the project is functional, here are some areas wher
 - Integrate accessibility tests to ensure that the application is inclusive and complies with accessibility standards, providing a seamless user experience for all.
 - Create a dedicated file to store all custom colors used in the project. Export these colors from the file to promote consistency and maintainability, eliminating the need for hardcoding color values throughout the codebase.
 - Establish a separate constant file specifically for storing all hardcoded strings within the project. This approach streamlines string management, making it easier to update and maintain textual content across the application.
+- Implement data persistence across page reloads by caching essential information entered by the user, like URL and applied filters, in the local storage. This ensures a seamless user experience and prevents data loss when users refresh the page.
 
 ## Execute the project
 
