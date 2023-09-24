@@ -2,7 +2,7 @@ import { Flex, Button, Text, Skeleton } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { OrFilters } from "../or-filters";
 import React from "react";
-import { useMyContext } from "../../context/data-context";
+import { useFilterContext } from "../../hooks/useFilterContext";
 
 export const Filters = ({
   error,
@@ -13,7 +13,7 @@ export const Filters = ({
   isLoading?: boolean;
   url?: string;
 }) => {
-  const { dispatch, rules, keys } = useMyContext();
+  const { dispatch, rules, fields } = useFilterContext();
 
   const addFilter = () => {
     dispatch({
@@ -50,7 +50,7 @@ export const Filters = ({
         maxW="10rem"
         leftIcon={<AddIcon />}
         onClick={() => addFilter()}
-        isDisabled={!keys?.length || !!error}
+        isDisabled={!fields?.length || !!error}
         colorScheme="orange"
         variant={"outline"}
       >

@@ -1,22 +1,18 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useReducer,
-  useState,
-} from "react";
+import React, { createContext, ReactNode, useReducer, useState } from "react";
 import { RuleObject, RuleState, RuleAction } from "../models";
 
-interface MyContextState {
-  keys: string[];
-  setKeys: React.Dispatch<React.SetStateAction<string[]>>;
+export interface FilterContextState {
+  fields: string[];
+  setFields: React.Dispatch<React.SetStateAction<string[]>>;
   dispatch: React.Dispatch<RuleAction>;
   rules: RuleState;
 }
 
 // Create a context
-const MyContext = createContext<MyContextState | undefined>(undefined);
-interface MyContextProviderProps {
+export const FilterContext = createContext<FilterContextState | undefined>(
+  undefined
+);
+interface FilterContextProviderProps {
   children: ReactNode;
 }
 
@@ -73,27 +69,19 @@ function reducer(state: RuleState, action: RuleAction): RuleState {
   throw Error("Unknown action: " + action.type);
 }
 
-const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
+const FilterContextProvider: React.FC<FilterContextProviderProps> = ({
+  children,
+}) => {
   const [rules, dispatch] = useReducer(reducer, {
     data: [],
   } as RuleState);
-  const [keys, setKeys] = useState<string[]>([]);
+  const [fields, setFields] = useState<string[]>([]);
 
   return (
-    <MyContext.Provider value={{ keys, setKeys, rules, dispatch }}>
+    <FilterContext.Provider value={{ fields, setFields, rules, dispatch }}>
       {children}
-    </MyContext.Provider>
+    </FilterContext.Provider>
   );
 };
 
-const useMyContext = (): MyContextState => {
-  const context = useContext(MyContext);
-
-  if (!context) {
-    throw new Error("useMyContext must be used within a MyContextProvider");
-  }
-
-  return context;
-};
-
-export { MyContextProvider, useMyContext };
+export { FilterContextProvider };

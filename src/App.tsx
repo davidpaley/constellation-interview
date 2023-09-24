@@ -1,10 +1,8 @@
 import "./App.css";
-import { ChakraProvider, Text } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Image } from "@chakra-ui/react";
 import { TableWithFilters } from "./components/table-with-filters";
-import { ArrowDownIcon } from "@chakra-ui/icons";
-import { MyContextProvider } from "./context/data-context";
+import { FilterContextProvider } from "./context/filter-context";
 import { Header } from "./header";
 function App() {
   const queryClient = new QueryClient({
@@ -22,9 +20,9 @@ function App() {
           <header className="App-header">
             <Header />
           </header>
-          <MyContextProvider>
+          <FilterContextProvider>
             <TableWithFilters />
-          </MyContextProvider>
+          </FilterContextProvider>
         </div>
       </ChakraProvider>
     </QueryClientProvider>

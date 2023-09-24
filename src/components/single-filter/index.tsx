@@ -9,7 +9,7 @@ import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { OPERATIONS } from "../../constants";
 import { isStringANumber } from "../../utils";
-import { useMyContext } from "../../context/data-context";
+import { useFilterContext } from "../../hooks/useFilterContext";
 
 interface SingleFilterProps {
   orIndex: number;
@@ -30,7 +30,7 @@ export const SingleFilter = ({
   showAddFilterSkeleton,
   rulesLength,
 }: SingleFilterProps) => {
-  const { dispatch, keys } = useMyContext();
+  const { dispatch, fields } = useFilterContext();
   const [field, setField] = useState(fieldProp || "");
   const [operation, setOperation] = useState(operationProp || "");
   const [value, setValue] = useState(valueProp || "");
@@ -82,10 +82,10 @@ export const SingleFilter = ({
           setField(e.target.value);
         }}
         value={field}
-        disabled={!keys?.length}
+        disabled={!fields?.length}
         placeholder="Field selection"
       >
-        {keys?.map((key, index) => (
+        {fields?.map((key, index) => (
           <option key={index} value={key}>
             {key}
           </option>
@@ -93,7 +93,7 @@ export const SingleFilter = ({
       </Select>
 
       <Select
-        disabled={!keys?.length}
+        disabled={!fields?.length}
         onChange={e => {
           setOperation(e.target.value);
         }}
@@ -114,14 +114,14 @@ export const SingleFilter = ({
             setValue(e.target.value);
           }}
           value={value}
-          disabled={!keys?.length}
+          disabled={!fields?.length}
           placeholder="value"
         />
         <FormErrorMessage>{errorInValue && "Incorrect value"}</FormErrorMessage>
       </FormControl>
 
       <IconButton
-        disabled={!keys?.length}
+        disabled={!fields?.length}
         color="blue"
         aria-label="Search database"
         onClick={onAddFiler}
@@ -130,7 +130,7 @@ export const SingleFilter = ({
         icon={<AddIcon />}
       />
       <IconButton
-        disabled={!keys?.length}
+        disabled={!fields?.length}
         color="#ff8585"
         aria-label="Search database"
         icon={<DeleteIcon />}

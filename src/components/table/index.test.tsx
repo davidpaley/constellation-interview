@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 import { render, act, fireEvent } from "@testing-library/react";
 import { Table } from "./index";
-import { MyContextProvider, useMyContext } from "../../context/data-context";
+import { FilterContextProvider } from "../../context/filter-context";
+import { useFilterContext } from "../../hooks/useFilterContext";
 
 const TEST_IDS = {
   updateKeys: "update-keys-button",
@@ -15,10 +16,10 @@ const data = [
 ];
 
 const ChildComponent = () => {
-  const { setKeys, dispatch } = useMyContext();
+  const { setFields, dispatch } = useFilterContext();
 
   const handleClick = () => {
-    setKeys(["id", "name"]);
+    setFields(["id", "name"]);
   };
   const addRule = () => {
     dispatch({
@@ -66,10 +67,10 @@ const ChildComponent = () => {
 
 const CustomContextProvider = ({ children }: { children: ReactNode }) => {
   return (
-    <MyContextProvider>
+    <FilterContextProvider>
       <ChildComponent />
       {children}
-    </MyContextProvider>
+    </FilterContextProvider>
   );
 };
 

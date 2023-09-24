@@ -13,7 +13,7 @@ import {
   Flex,
   Tag,
 } from "@chakra-ui/react";
-import { useMyContext } from "../../context/data-context";
+import { useFilterContext } from "../../hooks/useFilterContext";
 import { ApiData } from "../../models";
 import { getFilteredData } from "../../utils/rules";
 
@@ -22,7 +22,7 @@ interface TableProps extends ApiData {
   error?: unknown;
 }
 export const Table = ({ data, isLoading, error }: TableProps) => {
-  const { rules, keys } = useMyContext();
+  const { rules, fields } = useFilterContext();
 
   if (!!error) {
     return (
@@ -97,12 +97,14 @@ export const Table = ({ data, isLoading, error }: TableProps) => {
       >
         <ChakraTable variant="simple">
           <Thead>
-            <Tr>{data?.length && keys.map(key => <Th key={key}>{key}</Th>)}</Tr>
+            <Tr>
+              {data?.length && fields.map(key => <Th key={key}>{key}</Th>)}
+            </Tr>
           </Thead>
           <Tbody>
             {filteredData.map((objectItem, index) => (
               <Tr key={objectItem.id || index}>
-                {keys.map((key, index) => {
+                {fields.map((key, index) => {
                   return (
                     <Td key={index}>
                       {typeof objectItem[key] === "object"

@@ -1,46 +1,47 @@
 import { render, act, fireEvent } from "@testing-library/react";
-import { MyContextProvider, useMyContext } from "./data-context";
+import { useFilterContext } from "../hooks/useFilterContext";
+import { FilterContextProvider } from "./filter-context";
 
-describe("MyContextProvider", () => {
-  it("should provide and update keys context value", () => {
+describe("FilterContextProvider", () => {
+  it("should provide and update fields context value", () => {
     const ChildComponent = () => {
-      const { keys, setKeys } = useMyContext();
+      const { fields, setFields } = useFilterContext();
 
       const handleClick = () => {
-        setKeys(["key1", "key2"]);
+        setFields(["key1", "key2"]);
       };
 
       return (
         <>
-          <div data-testid="keys">{keys.join(",")}</div>
-          <button onClick={handleClick} data-testid="update-keys-button">
-            Update Keys
+          <div data-testid="fields">{fields.join(",")}</div>
+          <button onClick={handleClick} data-testid="update-fields-button">
+            Update Fields
           </button>
         </>
       );
     };
 
     const { getByTestId } = render(
-      <MyContextProvider>
+      <FilterContextProvider>
         <ChildComponent />
-      </MyContextProvider>
+      </FilterContextProvider>
     );
 
-    const keysElement = getByTestId("keys");
-    const updateKeysButton = getByTestId("update-keys-button");
+    const fieldsElement = getByTestId("fields");
+    const updateFieldsButton = getByTestId("update-fields-button");
 
-    expect(keysElement).toHaveTextContent("");
+    expect(fieldsElement).toHaveTextContent("");
 
     act(() => {
-      fireEvent.click(updateKeysButton);
+      fireEvent.click(updateFieldsButton);
     });
 
-    expect(keysElement).toHaveTextContent("key1,key2");
+    expect(fieldsElement).toHaveTextContent("key1,key2");
   });
 
   it("should provide and update rules context value", () => {
     const ChildComponent = () => {
-      const { rules, dispatch } = useMyContext();
+      const { rules, dispatch } = useFilterContext();
 
       const addRule = () => {
         dispatch({
@@ -66,9 +67,9 @@ describe("MyContextProvider", () => {
     };
 
     const { getByTestId } = render(
-      <MyContextProvider>
+      <FilterContextProvider>
         <ChildComponent />
-      </MyContextProvider>
+      </FilterContextProvider>
     );
 
     const rulesElement = getByTestId("rules");

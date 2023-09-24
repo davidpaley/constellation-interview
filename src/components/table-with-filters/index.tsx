@@ -1,40 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
 import { Table } from "../table";
 import { Container, Flex, Input } from "@chakra-ui/react";
 import { useState } from "react";
-import axios from "axios";
 import { isURL } from "../../utils";
 import { Filters } from "../filters";
-import { useMyContext } from "../../context/data-context";
+import { useGetData } from "../../hooks/useGetData";
 
 export const TableWithFilters = () => {
-  const { setKeys } = useMyContext();
   const onChangeUrl = (value: string) => setUrl(isURL(value) ? value : "");
   const [url, setUrl] = useState("");
 
-  const { data, isLoading, isRefetching, error } = useQuery({
-    queryKey: ["data", url],
-    queryFn: async () => {
-      const response = await axios.get<{ [key: string]: any }[]>(url);
-      if (response.data) {
-        return response.data;
-      }
-      return null;
-    },
-    onSuccess: data => {
-      const keysSet: Set<string> = new Set();
-      if (data?.length) {
-        data.forEach(item => {
-          const keysItem = Object.keys(item);
-          keysItem.forEach(k => keysSet.add(k));
-        });
-      }
-      const keys = Array.from(keysSet || []);
-      setKeys(keys);
-    },
-    enabled: !!url,
-    retry: 0,
-  });
+  const { data, isLoading, isRefetching, error } = useGetData(url);
 
   return (
     <>
