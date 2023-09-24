@@ -16,6 +16,7 @@ This project leverages [Chakra UI](https://chakra-ui.com/) as it's component lib
 
 While the current version of the project is functional, here are some areas where improvements and enhancements could be made:
 
+- Reset the filter rules state when the source URL change.
 - Implement additional automated tests, particularly for components responsible for setting filters.
 - Introduce end-to-end (E2E) testing with Cypress to automate complete browser-based workflows.
 - Enhance input validation for filters, such as verifying the correctness of regular expressions, possibly by integrating React Hook Form.
