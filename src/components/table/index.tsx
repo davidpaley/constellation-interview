@@ -22,7 +22,7 @@ interface TableProps extends ApiData {
   error?: unknown;
 }
 export const Table = ({ data, isLoading, error }: TableProps) => {
-  const { rules, fields } = useFilterContext();
+  const { rules: filters, fields } = useFilterContext();
 
   if (!!error) {
     return (
@@ -59,7 +59,7 @@ export const Table = ({ data, isLoading, error }: TableProps) => {
     );
   }
 
-  const filteredData = getFilteredData(data, rules.data);
+  const filteredData = getFilteredData(data, filters.data);
 
   if (!filteredData.length) {
     return (

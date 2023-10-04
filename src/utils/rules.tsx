@@ -6,7 +6,7 @@ export const applyFilters = (
   filters: RuleObject[][]
 ) => {
   // Function to apply an individual filter
-  const applyFilter = (item: ApiDataObject, filter: RuleObject) => {
+  const applyFilter = (item: ApiDataObject, filter: RuleObject): boolean => {
     const { field, operation, value } = filter;
     if (!filter.isValidated || !field || !value) {
       throw new Error("Trying to evaluate an incorrect filter");
@@ -31,32 +31,16 @@ export const applyFilters = (
   };
 
   // Iterate through the AND filters
-  for (const orFilters of filters) {
-    let orResult = false; // Initialize with false for OR logic
-
+  return filters.every(orFilters => {
     const filtersToEvaluate = orFilters.filter(
       ({ isValidated, value, field, operation }) =>
         isValidated && !!value && !!field && !!operation
     );
-    if (!filtersToEvaluate.length) {
-      return true;
-    }
-    // Iterate through the OR filters
-    for (const filter of filtersToEvaluate) {
-      if (applyFilter(dataItem, filter)) {
-        orResult = true; // If any filter in OR logic passes, set to true
-        break; // No need to check other OR filters
-      }
-    }
-
-    // If any OR filter passes, continue with AND logic
-    if (!orResult) {
-      return false; // If all OR filters fail, return false for AND logic
-    }
-  }
-
-  // If all AND filters pass, return true
-  return true;
+    return (
+      !filtersToEvaluate.length ||
+      filtersToEvaluate.some(filter => applyFilter(dataItem, filter))
+    );
+  });
 };
 
 export const getFilteredData = (
