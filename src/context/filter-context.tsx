@@ -49,18 +49,18 @@ function reducer(state: RuleState, action: RuleAction): RuleState {
         (_, index) => index !== action.orIndex
       );
       if (!newRuleArray[action.andIndex].length) {
-        newRuleArray = [
-          ...state.data.filter((_, index) => index !== action.andIndex),
-        ];
+        newRuleArray = state.data.filter(
+          (_, index) => index !== action.andIndex
+        );
       }
       return {
         data: newRuleArray,
       };
     }
     case "delete_and_rule": {
-      let newRuleArray = [
-        ...state.data.filter((_, index) => index !== action.andIndex),
-      ];
+      let newRuleArray = state.data.filter(
+        (_, index) => index !== action.andIndex
+      );
       return {
         data: newRuleArray,
       };
